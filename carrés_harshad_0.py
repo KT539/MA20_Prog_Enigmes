@@ -69,6 +69,20 @@ def find_square_harshad_smart():
 
         # Trouver carrés harshad
         # solution plus maline à programmer ici
+        root_min = int(math.sqrt(min_val))
+        root_max = int(math.sqrt(max_val))
+
+        for n in range(root_min, root_max + 1):
+
+            a = (n ** 2)
+            numbers_tested += 1
+            # somme des chiffres
+            sum_of_digits=0
+            for digit in str(a):
+                sum_of_digits +=int(digit) # calculer la somme des chiffres
+
+            if a % sum_of_digits==0 : #si carré harshad
+                    solutions.append(a)
 
 
         # Calcul du temps d'exécution
