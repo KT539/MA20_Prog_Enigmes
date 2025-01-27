@@ -23,6 +23,13 @@ def find_square_harshad():
 
         # Trouver les triangles rectangles entiers
         # Solution brute
+        for a in range(min_val, max_val + 1):
+            for b in range(min_val, max_val + 1):
+                c2 = a ** 2 + b ** 2
+                c = int(math.sqrt(c2))
+                if c ** 2 == c2:
+                    numbers_tested += 1
+                    solutions.append((a, b))
 
 
         # Calcul du temps d'exécution
