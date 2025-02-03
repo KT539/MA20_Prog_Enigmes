@@ -75,11 +75,58 @@ def find_rect_triangle_smart():
         for a in range(min_val, max_val + 1):
             for b in range(a + 1, max_val + 1):
                 c2 = a ** 2 + b ** 2
-                c = int(math.sqrt(c2))
                 if math.gcd(a, b) == 1:
                     if square[bisect.bisect_left(square, c2)] == c2:
                         numbers_tested += 1
+                        c = int(math.sqrt(c2))
                         solutions.append((a, b, c))
+
+
+        # Calcul du temps d'exécution
+        end_time = time.time()
+        elapsed_time = (end_time - start_time) * 1000  # En millisecondes
+
+        # Afficher les résultats dans la Text box
+        text_output.delete("1.0", tk.END)  # Effacer les résultats précédents
+        text_output.insert(tk.END, f"Couples testés : {numbers_tested}\n")
+        text_output.insert(tk.END, f"Solutions trouvées : {len(solutions)}\n")
+        text_output.insert(tk.END, f"Temps de calcul : {elapsed_time:.2f} ms\n\n")
+
+        if solutions:
+            for sol in solutions:
+                text_output.insert(tk.END, f"{sol}\n")
+        else:
+            text_output.insert(tk.END, "Aucun triangle rectangle trouvé.\n")
+
+    except ValueError as e:
+        messagebox.showerror("Erreur", str(e))
+
+
+def find_rect_triangle_prim():
+    try:
+        # Récupérer les bornes min et max
+        min_val = int(entry_min.get())
+        max_val = int(entry_max.get())
+        if min_val < 0 or max_val < 0 or min_val > max_val:
+            raise ValueError("Les bornes doivent être des entiers positifs et min ≤ max.")
+
+        # Initialiser les compteurs
+        start_time = time.time()  # Début du chronomètre
+        numbers_tested = 0
+        solutions = []
+
+        # Trouver triangles rectangles entiers
+        # solution primitive
+        for m in range(2, int(math.sqrt(max_val * math.sqrt(2)))):
+            for n in range(1, m):
+                a = 2 * m * n
+                b = m ** 2 - n ** 2
+                c = m ** 2 + n ** 2
+                if math.gcd(a, b) == 1 and a%2 != b%2:
+                    if a <= max_val and b <= max_val:
+                        numbers_tested += 1
+                        solutions.append((a, b, c))
+                        solutions.sort()
 
 
         # Calcul du temps d'exécution
@@ -122,7 +169,7 @@ btn_calculate = tk.Button(root, text="Triangles rect entiers", command=find_rect
 btn_calculate.grid(row=2, column=0,  pady=10)
 btn_calculate_smart = tk.Button(root, text="Triangles rect ent. smart", command=find_rect_triangle_smart)
 btn_calculate_smart.grid(row=2, column=1,  pady=10)
-btn_calculate_prim = tk.Button(root, text="Triangles rect primitifs", command=find_rect_triangle_smart)
+btn_calculate_prim = tk.Button(root, text="Triangles rect primitifs", command=find_rect_triangle_prim)
 btn_calculate_prim.grid(row=3, column=0,  pady=10)
 
 # Zone de texte pour afficher les résultats (dans un frame)
