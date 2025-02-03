@@ -124,6 +124,8 @@ def find_rect_triangle_prim():
                 c = m ** 2 + n ** 2
                 if math.gcd(a, b) == 1 and a%2 != b%2:
                     if a <= max_val and b <= max_val:
+                        if a > b:
+                            a, b = b, a
                         numbers_tested += 1
                         solutions.append((a, b, c))
                         solutions.sort()
