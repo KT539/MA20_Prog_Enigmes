@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import messagebox
 import time
 import math
+import bisect
 
 def find_rect_triangle():
     try:
@@ -69,13 +70,14 @@ def find_rect_triangle_smart():
         # Trouver triangles rectangles entiers
         # solution smart
         square = []
-        for c in range(min_val, int(max_val * math.sqrt(2))):
+        for c in range(min_val, int(max_val * 1.42)):
             square.append(c ** 2)
-        print(square)
         for a in range(min_val, max_val + 1):
             for b in range(a + 1, max_val + 1):
+                c2 = a ** 2 + b ** 2
+                c = int(math.sqrt(c2))
                 if math.gcd(a, b) == 1:
-                    if a ** 2 + b ** 2 in square:
+                    if square[bisect.bisect_left(square, c2)] == c2:
                         numbers_tested += 1
                         solutions.append((a, b, c))
 
